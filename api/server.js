@@ -8,9 +8,13 @@ const server = express();
 server.use(helmet());
 server.use(express.json());
 
+/* == Server Check == */
+
 server.get('/', (req, res) => {
   res.json({message: 'Server check' });
 });
+
+/* == Notes == */
 
 server.get('/notes', (req, res) => {
  //
