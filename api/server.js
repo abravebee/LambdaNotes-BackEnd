@@ -59,8 +59,31 @@ server.get('/notes/:id', (req, res) => {
 })
 
 server.post('/notes', (req, res) => {
-  //
-})
+  const note = req.body;
+  const { title, content } = req.body;
+  if (!title || !content ) {
+    console.log(`\n== NOTES NEED TITLE AND CONTENT ==\n`)
+   return res
+      .status(400)
+      .json({ error: "Please add a title and content for this project." })
+  } 
+
+  db.insert(note)
+    .into('notes')
+    .then(ids => {
+      console.log(`\n== NOTE ADDED ==\n`, note)
+      res
+        .status(201)
+        .json(ids);
+    })
+  
+   .catch(err => {
+      console.log(`\n== CANNOT ADD NOTE ==\n`, err)
+      res
+        .status(500)
+        .json({ error: "Error while saving the note." })
+    });
+});
 
 server.put('/notes/id', (req, res) => {
   //
