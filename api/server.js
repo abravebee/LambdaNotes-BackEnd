@@ -17,7 +17,19 @@ server.get('/', (req, res) => {
 /* == Notes == */
 
 server.get('/notes', (req, res) => {
- //
+ db('notes')
+  .then(notes => {
+    console.log(`\n== NOTES FOUND ==\n`, notes)
+    res
+      .status(200)
+      .json(notes);
+  })
+  .catch(err => {
+    console.log(`\n== CANNOT GET NOTES ==\n`, err)
+    res
+      .status(500)
+      .json({ error: "Error while retrieving notes." })
+  })
 })
 
 server.get('/notes/:id', (req, res) => {
