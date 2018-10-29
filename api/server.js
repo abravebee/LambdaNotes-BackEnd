@@ -1,10 +1,12 @@
 const express = require('express');
 const helmet = require('helmet');
 const knex = require('knex');
+const cors = require('cors');
 const dbConfig = require('./knexfile');
 const db = knex(dbConfig.development);
 const server = express();
 
+server.use(cors());
 server.use(helmet());
 server.use(express.json());
 
@@ -16,7 +18,7 @@ server.get('/', (req, res) => {
 
 /* == Notes == */
 
-server.get('/notes', (req, res) => {
+server.get('/api/notes', (req, res) => {
  db('notes')
   .then(notes => {
     console.log(`\n== NOTES FOUND ==\n`, notes)
@@ -32,7 +34,7 @@ server.get('/notes', (req, res) => {
   })
 })
 
-server.get('/notes/:id', (req, res) => {
+server.get('/api/notes/:id', (req, res) => {
   const { id } = req.params;
 
   db('notes')
@@ -58,7 +60,7 @@ server.get('/notes/:id', (req, res) => {
     })
 })
 
-server.post('/notes', (req, res) => {
+server.post('/api/notes', (req, res) => {
   const note = req.body;
   const { title, content } = req.body;
   if (!title || !content ) {
@@ -85,7 +87,7 @@ server.post('/notes', (req, res) => {
     });
 });
 
-server.put('/notes/:id', (req, res) => {
+server.put('/api/notes/:id', (req, res) => {
   const note = req.body;
   const { id } = req.params;
 
@@ -106,7 +108,7 @@ server.put('/notes/:id', (req, res) => {
     })
 })
 
-server.delete('/notes/:id', (req, res) => {
+server.delete('/api/notes/:id', (req, res) => {
   const { id } = req.params;
 
   db('notes')
