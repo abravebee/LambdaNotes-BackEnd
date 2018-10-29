@@ -1,0 +1,30 @@
+{
+  "name": "lambdanotes-backend",
+  "version": "1.0.0",
+  "description": "- [ ] Add data persistence using a Relational Database. We suggest you start with SQLite3.\r - [ ] Create a Web API for the React application you built in the front-end project week.\r - Build endpoints for each of the following features:\r - [ ] Display a list of notes.\r - [ ] Create a note with a title and content.\r - [ ] View an existing note.\r - [ ] Edit an existing note.\r - [ ] Delete an existing note.\r - [ ] Modify your front-end so that it uses your newly created Web API.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abravebee/LambdaNotes-BackEnd.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/abravebee/LambdaNotes-BackEnd/issues"
+  },
+  "homepage": "https://github.com/abravebee/LambdaNotes-BackEnd#readme",
+  "dependencies": {
+    "cors": "^2.8.4",
+    "express": "^4.16.4",
+    "helmet": "^3.14.0",
+    "knex": "^0.15.2",
+    "morgan": "^1.9.1",
+    "sqlite3": "^4.0.3"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.5"
+  }
+}
