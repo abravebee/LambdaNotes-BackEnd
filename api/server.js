@@ -33,7 +33,29 @@ server.get('/notes', (req, res) => {
 })
 
 server.get('/notes/:id', (req, res) => {
-  //
+  const { id } = req.params;
+
+  db('notes')
+    .where('id', id)
+    .then(note => {
+      if (!note.length) {
+        console.log(`\n== NOTE ID NOT FOUND ==\n`)
+        res
+          .status(401)
+          .json({ error: "There is no note with the specified ID." });
+      } else {
+      console.log(`\n== NOTE FOUND ==\n`, note)
+      res
+        .status(200)
+        .json(note)
+      }
+    })
+    .catch(err => {
+      console.log(`\n== CANNOT GET NOTE ==\n`, err)
+      res
+        .status(500)
+        .json({ error: "Error while retrieving note." })
+    })
 })
 
 server.post('/notes', (req, res) => {
