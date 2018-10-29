@@ -85,8 +85,25 @@ server.post('/notes', (req, res) => {
     });
 });
 
-server.put('/notes/id', (req, res) => {
-  //
+server.put('/notes/:id', (req, res) => {
+  const note = req.body;
+  const { id } = req.params;
+
+  db('notes')
+    .where('id', id)
+    .update(note)
+    .then(update => {
+      console.log(`\n== NOTE UPDATED ==\n`, note)
+      res
+        .status(200)
+        .json(update);
+    })
+    .catch(err => {
+      console.log(`\n== CANNOT UPDATE NOTE ==\n`, err)
+      res
+        .status(500)
+        .json({ error: "Error while updating note." });
+    })
 })
 
 server.delete('/notes/:id', (req, res) => {
