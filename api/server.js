@@ -92,11 +92,11 @@ server.put('/notes/:id', (req, res) => {
   db('notes')
     .where('id', id)
     .update(note)
-    .then(update => {
+    .then(updated => {
       console.log(`\n== NOTE UPDATED ==\n`, note)
       res
         .status(200)
-        .json(update);
+        .json(updated);
     })
     .catch(err => {
       console.log(`\n== CANNOT UPDATE NOTE ==\n`, err)
@@ -107,7 +107,23 @@ server.put('/notes/:id', (req, res) => {
 })
 
 server.delete('/notes/:id', (req, res) => {
-  //
+  const { id } = req.params;
+
+  db('notes')
+    .where('id', id)
+    .del()
+    .then(deleted => {
+      console.log(`\n== NOTE DELETED ==\n`, deleted)
+      res
+        .status(200)
+        .json(deleted);
+    })
+    .catch(err => {
+      console.log(`\n== CANNOT DELETE NOTE ==\n`, err)
+      res
+        .status(500)
+        .json({ error: "Error while deleting note." })
+    })
 })
 
 module.exports = server;
