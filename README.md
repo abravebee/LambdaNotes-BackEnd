@@ -1,11 +1,11 @@
 # LambdaNotes-BackEnd
 
-- [ ] Add data persistence using a Relational Database. We suggest you start with SQLite3.
-- [ ] Create a Web API for the React application you built in the front-end project week.
+- [x] Add data persistence using a Relational Database. We suggest you start with SQLite3.
+- [x] Create a Web API for the React application you built in the front-end project week.
 - Build endpoints for each of the following features:
-- [ ] Display a list of notes.
-- [ ] Create a note with a title and content.
-- [ ] View an existing note.
-- [ ] Edit an existing note.
-- [ ] Delete an existing note.
-- [ ] Modify your front-end so that it uses your newly created Web API.
+- [x] Display a list of notes.
+- [x] Create a note with a title and content.
+- [x] View an existing note.
+- [x] Edit an existing note.
+- [x] Delete an existing note.
+- [x] Modify your front-end so that it uses your newly created Web API.
