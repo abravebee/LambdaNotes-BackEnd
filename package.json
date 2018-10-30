@@ -4,7 +4,8 @@
   "description": "- [ ] Add data persistence using a Relational Database. We suggest you start with SQLite3.\r - [ ] Create a Web API for the React application you built in the front-end project week.\r - Build endpoints for each of the following features:\r - [ ] Display a list of notes.\r - [ ] Create a note with a title and content.\r - [ ] View an existing note.\r - [ ] Edit an existing note.\r - [ ] Delete an existing note.\r - [ ] Modify your front-end so that it uses your newly created Web API.",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon",
+    "start": "node index.js",
+    "server": "nodemon",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
