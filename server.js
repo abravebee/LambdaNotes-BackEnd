@@ -16,6 +16,8 @@ server.get('/', (req, res) => {
   res.json({message: 'Server check' });
 });
 
+
+
 /* == Notes == */
 
 server.get('/api/notes', (req, res) => {

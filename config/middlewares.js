@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 
 function authenticate(req, res, next) {
   const token = req.get('Authorization');
+  const jwtKey = 'th4t.s-mY-s3crEt-cPtn-i.M-alW4y5-4nGryy';
 
   if (token) {
     jwt.verify(token, jwtKey, (err, decoded) => {
@@ -17,3 +18,5 @@ function authenticate(req, res, next) {
     });
   }
 }
+
+module.exports = { authenticate };

@@ -12,6 +12,11 @@ server.use(cors());
 server.use(helmet());
 server.use(express.json());
 
+const configureRoutes = require('./config/authRoutes');
+configureRoutes(server);
+
+const { authenticate } = require('./config/middlewares');
+
 /* == Server Check == */
 
 server.get('/', (req, res) => {
@@ -20,7 +25,7 @@ server.get('/', (req, res) => {
 
 /* == Notes == */
 
-server.get('/api/notes', (req, res) => {
+server.get('/api/notes', authenticate, (req, res) => {
  db('notes')
   .then(notes => {
     console.log(`\n== NOTES FOUND ==\n`, notes)
