@@ -16,13 +16,13 @@ server.use(express.json());
 
 /* == Server Check == */
 
-/*
+
 server.get('/', (req, res) => {
   res.json({message: 'Server check' });
 });
 
 /* == Authentication == */
-
+/*
 server.post('/api/register', (req, res) => {
   const creds = req.body;
 
