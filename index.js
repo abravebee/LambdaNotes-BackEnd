@@ -13,13 +13,10 @@ server.use(cors());
 server.use(helmet());
 server.use(express.json());
 
-// const configureRoutes = require('./config/authRoutes');
-// configureRoutes(server);
-
-// const { authenticate } = require('./config/middlewares');
 
 /* == Server Check == */
 
+/*
 server.get('/', (req, res) => {
   res.json({message: 'Server check' });
 });
@@ -106,9 +103,11 @@ function protected(req, res, next) {
   }
 }
 
+*/
+
 /* == Notes == */
 
-server.get('/api/notes', protected, (req, res) => {
+server.get('/api/notes', /* protected */, (req, res) => {
  db('notes')
   .then(notes => {
     console.log(`\n== NOTES FOUND ==\n`, notes)
