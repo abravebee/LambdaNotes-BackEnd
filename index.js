@@ -107,7 +107,7 @@ function protected(req, res, next) {
 
 /* == Notes == */
 
-server.get('/api/notes', /* protected */, (req, res) => {
+server.get('/api/notes', /* protected, */ (req, res) => {
  db('notes')
   .then(notes => {
     console.log(`\n== NOTES FOUND ==\n`, notes)
