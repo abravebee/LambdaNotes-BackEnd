@@ -4,18 +4,19 @@ const express = require('express');
 const helmet = require('helmet');
 const knex = require('knex');
 const cors = require('cors');
-const dbConfig = require('./knexfile');
-const db = knex(dbConfig.development);
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const db = require('./data/dbConfig.js');
 const server = express();
 
 server.use(cors());
 server.use(helmet());
 server.use(express.json());
 
-const configureRoutes = require('./config/authRoutes');
-configureRoutes(server);
+// const configureRoutes = require('./config/authRoutes');
+// configureRoutes(server);
 
-const { authenticate } = require('./config/middlewares');
+// const { authenticate } = require('./config/middlewares');
 
 /* == Server Check == */
 
@@ -23,9 +24,91 @@ server.get('/', (req, res) => {
   res.json({message: 'Server check' });
 });
 
+/* == Authentication == */
+
+server.post('/api/register', (req, res) => {
+  const creds = req.body;
+
+  const hash = bcrypt.hashSync(creds.password, 10);
+  creds.password = hash;
+
+  db('users')
+    .insert(creds)
+    .then(ids => {
+      const id = ids[0];
+      res
+        .status(201)
+        .json({ newUserId: id });
+    })
+    .catch(err => {
+      res
+        .status(500)
+        .json(err);
+    });
+});
+
+
+const jwtSecret = 'that/s.my.secret.Cap,I/m.always.angry';
+
+function generateToken(user) {
+  const jwtPayload = {
+    ...user,
+    roles: ['admin', 'root'],
+  };
+  const jwtOptions = {
+    expiresIn: '1m',
+  };
+  
+  return jwt.sign(jwtPayload, jwtSecret, jwtOptions);
+}
+
+server.post('/api/login', (req, res) => {
+  const creds = req.body;
+
+  db('users')
+    .where({ username: creds.username })
+    .first()
+    .then(user => {
+      if (user && bcrypt.compareSync(creds.password, user.password)) {
+        const token = generateToken(user);
+        console.log("token in login", token);
+        res
+          .status(200)
+          .json({
+            welcome: user.username, token
+          });
+      } else {
+        res
+          .status(401)
+          .json({ message: 'Nope.' })
+      }
+    })
+})
+
+function protected(req, res, next) {
+  const token = req.headers.authorization;
+  
+  if (token) {
+    console.log("token in protected", token);
+    jwt.verify(token, jwtSecret, (err, decodedToken) => {
+      if (err) {
+        // token verif failed
+        res.status(401).json({ message: 'Invalid Token' });
+      } else {
+        // token valid
+        req.decodedToken = decodedToken;
+        console.log('\n== decodedToken info ==\n', req.decodedToken);
+        next();
+      }
+    });
+  } else {
+    res.status(401).json({ message: 'No token provided.' });
+  }
+}
+
 /* == Notes == */
 
-server.get('/api/notes', authenticate, (req, res) => {
+server.get('/api/notes', protected, (req, res) => {
  db('notes')
   .then(notes => {
     console.log(`\n== NOTES FOUND ==\n`, notes)
